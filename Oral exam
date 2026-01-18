@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>128 Civics Questions Oral Test Simulator - 2025 Version</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f8f9fa;
+            line-height: 1.5;
+        }
+        #quiz-container { 
+            max-width: 720px; 
+            margin: auto; 
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #007bff; text-align: center; margin-bottom: 10px; }
+        p { text-align: center; color: #555; }
+        #question { 
+            font-size: 20px; 
+            font-weight: bold;
+            margin: 30px 0 20px;
+            min-height: 60px;
+        }
+        button { 
+            padding: 12px 28px; 
+            margin: 8px 6px;
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        button:hover { background: #0056b3; }
+        #feedback { 
+            margin: 25px 0; 
+            font-size: 18px; 
+            min-height: 80px;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        #correct { color: #28a745; font-weight: bold; }
+        #incorrect { color: #dc3545; font-weight: bold; }
+        #error { color: #dc3545; font-style: italic; }
+        #next-btn { background: #28a745; }
+        #next-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>128 Civics Questions – Oral Test Simulator (2025 Version)</h1>
+        <p>Hello Miriam! This is an oral practice for your USCIS naturalization civics test.</p>
+        <p>1. Click <strong>🔊 Listen to Question</strong> to hear it.<br>
+        2. Then click <strong>🎤 Answer by Speaking</strong> and speak your answer clearly in English.<br>
+        <strong>Note:</strong> Answers for Connecticut (Waterbury area) are current as of January 2026.</p>
+
+        <div id="question"></div>
+
+        <button onclick="speakQuestion()">🔊 Listen to Question</button>
+        <button onclick="startListening()">🎤 Answer by Speaking</button>
+
+        <div id="feedback"></div>
+        <div id="error"></div>
+
+        <button onclick="nextQuestion()" id="next-btn" style="display:none;">Next Question →</button>
+    </div>
+
+    <script>
+        const questions = [
+            {q:"What is the form of government of the United States?",a:["republic","constitution-based federal republic","representative democracy"]},
+            {q:"What is the supreme law of the land?",a:["constitution","u.s. constitution","the constitution"]},
+            {q:"Name one thing the U.S. Constitution does.",a:["forms the government","defines powers of government","defines the parts of government","protects the rights of the people"]},
+            {q:"The U.S. Constitution starts with the words “We the People.” What does “We the People” mean?",a:["self-government","popular sovereignty","consent of the governed","people should govern themselves"]},
+            {q:"How are changes made to the U.S. Constitution?",a:["amendments","the amendment process"]},
+            {q:"What does the Bill of Rights protect?",a:["basic rights of americans","the rights of people living in the united states"]},
+            {q:"How many amendments does the U.S. Constitution have?",a:["twenty-seven","27"]},
+            {q:"Why is the Declaration of Independence important?",a:["it announced our independence from great britain","it says all people are created equal","it identifies inherent rights"]},
+            {q:"What founding document said the American colonies were free from Britain?",a:["declaration of independence"]},
+            {q:"Name two important ideas from the Declaration of Independence and the U.S. Constitution.",a:["equality","liberty","natural rights","limited government","self-government"]},
+            {q:"The words “Life, Liberty, and the pursuit of Happiness” are in what founding document?",a:["declaration of independence"]},
+            {q:"What is the economic system of the United States?",a:["capitalism","market economy","free market economy"]},
+            {q:"What is the rule of law?",a:["everyone must follow the law","no one is above the law","government must obey the law"]},
+            {q:"Many documents influenced the U.S. Constitution. Name one.",a:["declaration of independence","articles of confederation","federalist papers","magna carta","fundamental orders of connecticut"]},
+            {q:"There are three branches of government. Why?",a:["so one part does not become too powerful","checks and balances","separation of powers"]},
+            {q:"Name the three branches of government.",a:["legislative executive and judicial","congress president and courts"]},
+            {q:"The President of the United States is in charge of which branch of government?",a:["executive branch","executive"]},
+            {q:"What part of the federal government writes laws?",a:["congress","u.s. congress","legislative branch"]},
+            {q:"What are the two parts of the U.S. Congress?",a:["senate and house of representatives","senate and house"]},
+            {q:"Name one power of the U.S. Congress.",a:["writes laws","declares war","makes the federal budget","collects taxes"]},
+            {q:"How many U.S. senators are there?",a:["one hundred","100"]},
+            {q:"How long is a term for a U.S. senator?",a:["six years","6 years"]},
+            {q:"Who is one of your state's U.S. senators now?",a:["richard blumenthal","chris murphy","christopher s. murphy"]},
+            {q:"How many voting members are in the House of Representatives?",a:["four hundred thirty-five","435"]},
+            {q:"How long is a term for a member of the House of Representatives?",a:["two years","2 years"]},
+            {q:"Why do U.S. representatives serve shorter terms than U.S. senators?",a:["to more closely follow public opinion"]},
+            {q:"How many senators does each state have?",a:["two","2"]},
+            {q:"Why does each state have two senators?",a:["equal representation","the great compromise","connecticut compromise"]},
+            {q:"Name your U.S. representative.",a:["jahana hayes"]},
+            {q:"What is the name of the Speaker of the House of Representatives now?",a:["mike johnson"]},
+            {q:"Who does a U.S. senator represent?",a:["citizens of their state","people of their state"]},
+            {q:"Who elects U.S. senators?",a:["citizens from their state"]},
+            {q:"Who does a member of the House of Representatives represent?",a:["citizens in their congressional district","people in their district"]},
+            {q:"Who elects members of the House of Representatives?",a:["citizens from their congressional district"]},
+            {q:"Some states have more representatives than other states. Why?",a:["because of the state's population","they have more people"]},
+            {q:"The President of the United States is elected for how many years?",a:["four years","4 years"]},
+            {q:"The President of the United States can serve only two terms. Why?",a:["because of the 22nd amendment","to keep the president from becoming too powerful"]},
+            {q:"What is the name of the President of the United States now?",a:["donald j. trump","donald trump"]},
+            {q:"What is the name of the Vice President of the United States now?",a:["jd vance","james david vance"]},
+            {q:"If the president can no longer serve, who becomes president?",a:["the vice president"]},
+            {q:"Name one power of the president.",a:["signs bills into law","vetoes bills","commander in chief","appoints federal judges"]},
+            {q:"Who is Commander in Chief of the U.S. military?",a:["the president"]},
+            {q:"Who signs bills to become laws?",a:["the president"]},
+            {q:"Who vetoes bills?",a:["the president"]},
+            {q:"Who appoints federal judges?",a:["the president"]},
+            {q:"The executive branch has many parts. Name one.",a:["president","cabinet","federal departments"]},
+            {q:"What does the President’s Cabinet do?",a:["advises the president"]},
+            {q:"What are two Cabinet-level positions?",a:["secretary of state","attorney general","secretary of defense","secretary of education"]},
+            {q:"Why is the Electoral College important?",a:["it decides who is elected president","compromise between popular election and congress"]},
+            {q:"What is one part of the judicial branch?",a:["supreme court","federal courts"]},
+            {q:"What does the judicial branch do?",a:["reviews laws","interprets laws","decides if laws follow the constitution"]},
+            {q:"What is the highest court in the United States?",a:["supreme court"]},
+            {q:"How many seats are on the Supreme Court?",a:["nine","9"]},
+            {q:"How many Supreme Court justices are usually needed to decide a case?",a:["five","5"]},
+            {q:"How long do Supreme Court justices serve?",a:["for life","lifetime appointment"]},
+            {q:"Supreme Court justices serve for life. Why?",a:["to be independent of politics","to limit outside influence"]},
+            {q:"Who is the Chief Justice of the United States now?",a:["john roberts"]},
+            {q:"Name one power that is only for the federal government.",a:["print paper money","declare war","make treaties"]},
+            {q:"Name one power that is only for the states.",a:["provide schooling","issue driver's licenses","police protection"]},
+            {q:"What is the purpose of the 10th Amendment?",a:["powers not given to federal government belong to states or people"]},
+            {q:"Who is the governor of your state now?",a:["ned lamont"]},
+            {q:"What is the capital of your state?",a:["hartford"]},
+            {q:"There are four amendments to the U.S. Constitution about who can vote. Describe one of them.",a:["citizens eighteen and older can vote","no poll tax","women can vote","any citizen can vote"]},
+            {q:"Who can vote in federal elections, run for federal office, and serve on a jury in the United States?",a:["citizens","u.s. citizens"]},
+            {q:"What are three rights of everyone living in the United States?",a:["freedom of speech","freedom of religion","freedom of assembly","right to bear arms"]},
+            {q:"What do we show loyalty to when we say the Pledge of Allegiance?",a:["the flag","the united states"]},
+            {q:"Name two promises that new citizens make in the Oath of Allegiance.",a:["be loyal to the united states","defend the constitution","obey the laws"]},
+            {q:"How can people become United States citizens?",a:["naturalization","born in the united states","through parents"]},
+            {q:"What are two examples of civic participation in the United States?",a:["vote","run for office","join a political party","contact elected officials"]},
+            {q:"What is one way Americans can serve their country?",a:["vote","pay taxes","serve in the military","obey the law"]},
+            {q:"Why is it important to pay federal taxes?",a:["required by law","funds the government"]},
+            {q:"It is important for all men age 18 through 25 to register for the Selective Service. Name one reason why.",a:["required by law","in case of draft"]},
+            {q:"The colonists came to America for many reasons. Name one.",a:["freedom","religious freedom","economic opportunity"]},
+            {q:"Who lived in America before the Europeans arrived?",a:["native americans","american indians"]},
+            {q:"What group of people was taken and sold as slaves?",a:["africans"]},
+            {q:"What war did the Americans fight to win independence from Britain?",a:["american revolution","revolutionary war"]},
+            {q:"Name one reason why the Americans declared independence from Britain.",a:["taxation without representation","high taxes"]},
+            {q:"Who wrote the Declaration of Independence?",a:["thomas jefferson"]},
+            {q:"When was the Declaration of Independence adopted?",a:["july 4 1776"]},
+            {q:"The American Revolution had many important events. Name one.",a:["battle of yorktown","crossing the delaware"]},
+            {q:"There were 13 original states. Name five.",a:["connecticut","new york","virginia","massachusetts","pennsylvania","new hampshire","new jersey","delaware","maryland","north carolina","south carolina","georgia","rhode island"]},
+            {q:"What founding document was written in 1787?",a:["u.s. constitution"]},
+            {q:"The Federalist Papers supported the passage of the U.S. Constitution. Name one of the writers.",a:["james madison","alexander hamilton","john jay"]},
+            {q:"Why were the Federalist Papers important?",a:["they helped people understand the constitution","supported ratification"]},
+            {q:"Benjamin Franklin is famous for many things. Name one.",a:["inventor","helped write declaration","u.s. diplomat"]},
+            {q:"George Washington is famous for many things. Name one.",a:["first president","father of our country"]},
+            {q:"Thomas Jefferson is famous for many things. Name one.",a:["wrote declaration of independence","third president"]},
+            {q:"James Madison is famous for many things. Name one.",a:["father of the constitution","fourth president"]},
+            {q:"Alexander Hamilton is famous for many things. Name one.",a:["first secretary of the treasury","federalist papers"]},
+            {q:"What territory did the United States buy from France in 1803?",a:["louisiana territory"]},
+            {q:"Name one war fought by the United States in the 1800s.",a:["civil war","war of 1812","mexican-american war"]},
+            {q:"Name the U.S. war between the North and the South.",a:["civil war"]},
+            {q:"The Civil War had many important events. Name one.",a:["emancipation proclamation","battle of gettysburg"]},
+            {q:"Abraham Lincoln is famous for many things. Name one.",a:["freed the slaves","16th president","preserved the union"]},
+            {q:"What did the Emancipation Proclamation do?",a:["freed slaves in the confederacy"]},
+            {q:"What U.S. war ended slavery?",a:["civil war"]},
+            {q:"What amendment says all persons born or naturalized in the United States are U.S. citizens?",a:["14th amendment"]},
+            {q:"When did all men get the right to vote?",a:["after the civil war","15th amendment","1870"]},
+            {q:"Name one leader of the women's rights movement in the 1800s.",a:["susan b. anthony","elizabeth cady stanton"]},
+            {q:"Name one war fought by the United States in the 1900s.",a:["world war ii","world war i","korean war"]},
+            {q:"Why did the United States enter World War I?",a:["german submarine attacks","support allies"]},
+            {q:"When did all women get the right to vote?",a:["1920","19th amendment"]},
+            {q:"What was the Great Depression?",a:["long economic downturn","stock market crash of 1929"]},
+            {q:"When did the Great Depression start?",a:["1929"]},
+            {q:"Who was president during the Great Depression and World War II?",a:["franklin roosevelt"]},
+            {q:"Why did the United States enter World War II?",a:["japanese attack on pearl harbor"]},
+            {q:"Who was the United States' main rival during the Cold War?",a:["soviet union","ussr"]},
+            {q:"What major event happened on September 11, 2001 in the United States?",a:["terrorists attacked the united states","9/11 attacks"]},
+            {q:"Name one U.S. military conflict after the September 11, 2001 attacks.",a:["war in afghanistan","war in iraq"]},
+            {q:"What is the capital of the United States?",a:["washington d.c.","washington dc"]},
+            {q:"Why does the flag have 13 stripes?",a:["thirteen original colonies"]},
+            {q:"Why does the flag have 50 stars?",a:["one for each state"]},
+            {q:"What is the name of the national anthem?",a:["the star-spangled banner"]},
+            {q:"What is Independence Day?",a:["july 4","celebration of independence from britain"]},
+            {q:"Name three national U.S. holidays.",a:["independence day","thanksgiving","memorial day","veterans day","labor day"]},
+            {q:"What is Memorial Day?",a:["honors military members who died in service"]},
+            {q:"What is Veterans Day?",a:["honors all who served in the u.s. military"]}
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion() {
+            document.getElementById('question').innerText = (currentQuestionIndex + 1) + ". " + questions[currentQuestionIndex].q;
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('error').innerText = '';
+            document.getElementById('next-btn').style.display = 'none';
+        }
+
+        function speakQuestion() {
+            const utterance = new SpeechSynthesisUtterance(questions[currentQuestionIndex].q);
+            utterance.lang = "en-US";
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+            speechSynthesis.speak(utterance);
+        }
+
+        function startListening() {
+            document.getElementById("error").innerText = "";
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                document.getElementById("error").innerText = "Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.";
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 3;
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                const spoken = event.results[0][0].transcript.toLowerCase().trim();
+                checkAnswer(spoken);
+            };
+
+            recognition.onerror = function(event) {
+                document.getElementById("error").innerText = "No te escuché bien. Intenta de nuevo. (" + event.error + ")";
+            };
+
+            recognition.onend = function() {
+                // Puedes agregar algo aquí si quieres
+            };
+        }
+
+        function checkAnswer(userAnswer) {
+            const correct = questions[currentQuestionIndex].a.map(x => x.toLowerCase());
+            const isCorrect = correct.some(ans => userAnswer.includes(ans) || ans.includes(userAnswer));
+
+            if (isCorrect) {
+                document.getElementById("feedback").innerHTML = 
+                    `<span id="correct">¡Correcto!</span><br> Dijiste: "${userAnswer}"<br><br>` +
+                    `Respuestas aceptables: ${questions[currentQuestionIndex].a.join(", ")}`;
+            } else {
+                document.getElementById("feedback").innerHTML = 
+                    `<span id="incorrect">Incorrecto.</span><br> Dijiste: "${userAnswer}"<br><br>` +
+                    `Respuestas aceptables: ${questions[currentQuestionIndex].a.join(", ")}`;
+            }
+
+            document.getElementById("next-btn").style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+                speakQuestion();
+            } else {
+                document.getElementById("question").innerText = "¡Felicidades, Miriam! Terminaste las 128 preguntas.";
+                document.getElementById("feedback").innerText = "Practica las que fallaste y ¡vas muy bien! 🇺🇸";
+                document.querySelectorAll('button').forEach(b => b.style.display = 'none');
+            }
+        }
+
+        // Iniciar
+        displayQuestion();
+        speakQuestion();
+    </script>
+</body>
+</html>
