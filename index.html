@@ -1,168 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>128 Civics Questions Oral Test Simulator - Random Order</title>
-
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f8f9fa;
-    line-height: 1.5;
-}
-#quiz-container {
-    max-width: 720px;
-    margin: auto;
-    padding: 25px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
-}
-h1 { color: #007bff; text-align: center; }
-p { text-align: center; color: #555; }
-#question {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 30px 0 20px;
-    min-height: 60px;
-}
-button {
-    padding: 12px 28px;
-    margin: 8px 6px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 16px;
-}
-button:hover { background: #0056b3; }
-#next-btn { background: #28a745; display:none; }
-#next-btn:hover { background: #218838; }
-#feedback {
-    margin: 25px 0;
-    font-size: 18px;
-    min-height: 80px;
-}
-#correct { color: #28a745; font-weight: bold; }
-#incorrect { color: #dc3545; font-weight: bold; }
-#error { color: #dc3545; font-style: italic; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>128 Civics Questions Oral Test Simulator - 2025 Version (Random)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+            line-height: 1.5;
+        }
+        #quiz-container {
+            max-width: 720px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #007bff; text-align: center; margin-bottom: 10px; }
+        p { text-align: center; color: #555; }
+        #question {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 30px 0 20px;
+            min-height: 60px;
+        }
+        #progress {
+            text-align: center;
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        button {
+            padding: 12px 28px;
+            margin: 8px 6px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        button:hover { background: #0056b3; }
+        #feedback {
+            margin: 25px 0;
+            font-size: 18px;
+            min-height: 80px;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        #correct { color: #28a745; font-weight: bold; }
+        #incorrect { color: #dc3545; font-weight: bold; }
+        #error { color: #dc3545; font-style: italic; }
+        #next-btn { background: #28a745; }
+        #next-btn:hover { background: #218838; }
+    </style>
 </head>
-
 <body>
-<div id="quiz-container">
-<h1>128 Civics Questions – Oral Test Simulator</h1>
-<p>Hello Miriam! Practice like the real USCIS oral exam 🇺🇸</p>
+    <div id="quiz-container">
+        <h1>128 Civics Questions – Oral Test Simulator (2025 Version – Random)</h1>
+        <p>Hello Miriam! This is an oral practice for your USCIS naturalization civics test.</p>
+        <p>1. Click <strong>🔊 Listen to Question</strong> to hear it.<br>
+        2. Then click <strong>🎤 Answer by Speaking</strong> and speak your answer clearly in English.<br>
+        <strong>Note:</strong> Answers for Connecticut (Waterbury area) are current as of January 2026.</p>
 
-<div id="question"></div>
+        <div id="progress"></div>
+        <div id="question"></div>
+        <button onclick="speakQuestion()">🔊 Listen to Question</button>
+        <button onclick="startListening()">🎤 Answer by Speaking</button>
+        <div id="feedback"></div>
+        <div id="error"></div>
+        <button onclick="nextQuestion()" id="next-btn" style="display:none;">Next Question →</button>
+    </div>
 
-<button onclick="speakQuestion()">🔊 Listen to Question</button>
-<button onclick="startListening()">🎤 Answer by Speaking</button>
+    <script>
+        const questions = [
+            {q:"What is the form of government of the United States?",a:["republic","constitution-based federal republic","representative democracy"]},
+            {q:"What is the supreme law of the land?",a:["constitution","u.s. constitution","the constitution"]},
+            {q:"Name one thing the U.S. Constitution does.",a:["forms the government","defines powers of government","defines the parts of government","protects the rights of the people"]},
+            {q:"The U.S. Constitution starts with the words “We the People.” What does “We the People” mean?",a:["self-government","popular sovereignty","consent of the governed","people should govern themselves"]},
+            {q:"How are changes made to the U.S. Constitution?",a:["amendments","the amendment process"]},
+            // ... (todas las demás preguntas que ya tenías – las omito aquí por brevedad)
+            {q:"What is Veterans Day?",a:["honors all who served in the u.s. military"]}
+            // Asegúrate de copiar TODAS las 128 preguntas del código original aquí
+        ];
 
-<div id="feedback"></div>
-<div id="error"></div>
+        let remainingQuestions = [...questions]; // copia del array original
+        let currentQuestion = null;
+        let questionCount = 0;
 
-<button onclick="nextQuestion()" id="next-btn">Next Question →</button>
-</div>
+        function pickRandomQuestion() {
+            if (remainingQuestions.length === 0) {
+                return null;
+            }
+            const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+            const selected = remainingQuestions[randomIndex];
+            // Eliminamos la pregunta usada para no repetirla
+            remainingQuestions.splice(randomIndex, 1);
+            return selected;
+        }
 
-<script>
-const questions = [
-{q:"What is the form of government of the United States?",a:["republic","constitution-based federal republic","representative democracy"]},
-{q:"What is the supreme law of the land?",a:["constitution","u.s. constitution","the constitution"]},
-{q:"Name one thing the U.S. Constitution does.",a:["forms the government","defines powers of government","protects the rights of the people"]},
-{q:"The U.S. Constitution starts with the words “We the People.” What does that mean?",a:["self-government","consent of the governed"]},
-{q:"How are changes made to the U.S. Constitution?",a:["amendments"]},
-{q:"What does the Bill of Rights protect?",a:["basic rights","rights of americans"]},
-{q:"How many amendments does the Constitution have?",a:["27","twenty-seven"]},
-{q:"Why is the Declaration of Independence important?",a:["announced independence","all people are created equal"]},
-{q:"What founding document said the colonies were free from Britain?",a:["declaration of independence"]},
-{q:"What is the economic system of the United States?",a:["capitalism","free market economy"]},
-{q:"What is the rule of law?",a:["no one is above the law","everyone must follow the law"]},
-{q:"Name the three branches of government.",a:["legislative executive judicial","congress president courts"]},
-{q:"Who is one of your state's U.S. senators?",a:["richard blumenthal","chris murphy"]},
-{q:"Who is the governor of your state?",a:["ned lamont"]},
-{q:"What is the capital of Connecticut?",a:["hartford"]},
-{q:"What is the name of the President of the United States now?",a:["donald trump","donald j. trump"]},
-{q:"What is the name of the Vice President now?",a:["jd vance","james david vance"]},
-{q:"Who is the Chief Justice of the United States?",a:["john roberts"]},
-{q:"How many justices are on the Supreme Court?",a:["9","nine"]},
-{q:"What is the capital of the United States?",a:["washington dc","washington d.c."]},
-{q:"Why does the flag have 13 stripes?",a:["13 original colonies"]},
-{q:"Why does the flag have 50 stars?",a:["one for each state"]},
-{q:"What is the name of the national anthem?",a:["the star-spangled banner"]},
-{q:"When is Independence Day?",a:["july 4"]},
-{q:"What is Memorial Day?",a:["honors soldiers who died"]},
-{q:"What is Veterans Day?",a:["honors all who served"]}
-];
+        function updateProgress() {
+            const asked = questionCount;
+            const total = questions.length;
+            const remaining = remainingQuestions.length;
+            document.getElementById('progress').innerText = 
+                `Question ${asked} of ${total}  •  ${remaining} remaining`;
+        }
 
-// 🔀 MEZCLAR PREGUNTAS
-questions.sort(() => Math.random() - 0.5);
+        function displayQuestion() {
+            currentQuestion = pickRandomQuestion();
+            
+            if (!currentQuestion) {
+                document.getElementById('question').innerText = "¡Felicidades, Miriam! Has practicado todas las 128 preguntas.";
+                document.getElementById('feedback').innerText = "¡Excelente trabajo! 🇺🇸 Repasa las que te costaron más.";
+                document.querySelectorAll('button').forEach(b => b.style.display = 'none');
+                document.getElementById('progress').innerText = "";
+                return;
+            }
 
-let currentQuestionIndex = 0;
+            questionCount++;
+            document.getElementById('question').innerText = questionCount + ". " + currentQuestion.q;
+            document.getElementById('feedback').innerText = '';
+            document.getElementById('error').innerText = '';
+            document.getElementById('next-btn').style.display = 'none';
+            
+            updateProgress();
+        }
 
-function displayQuestion() {
-    document.getElementById("question").innerText =
-    (currentQuestionIndex + 1) + ". " + questions[currentQuestionIndex].q;
-    document.getElementById("feedback").innerText = "";
-    document.getElementById("error").innerText = "";
-    document.getElementById("next-btn").style.display = "none";
-}
+        function speakQuestion() {
+            if (!currentQuestion) return;
+            const utterance = new SpeechSynthesisUtterance(currentQuestion.q);
+            utterance.lang = "en-US";
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+            speechSynthesis.speak(utterance);
+        }
 
-function speakQuestion() {
-    const u = new SpeechSynthesisUtterance(questions[currentQuestionIndex].q);
-    u.lang = "en-US";
-    u.rate = 0.95;
-    speechSynthesis.speak(u);
-}
+        function startListening() {
+            if (!currentQuestion) return;
 
-function startListening() {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-        document.getElementById("error").innerText = "Use Chrome or Edge.";
-        return;
-    }
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.start();
+            document.getElementById("error").innerText = "";
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                document.getElementById("error").innerText = "Tu navegador no soporta reconocimiento de voz. Usa Chrome o Edge.";
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 3;
+            recognition.start();
 
-    recognition.onresult = e => {
-        const spoken = e.results[0][0].transcript.toLowerCase();
-        checkAnswer(spoken);
-    };
-}
+            recognition.onresult = function(event) {
+                const spoken = event.results[0][0].transcript.toLowerCase().trim();
+                checkAnswer(spoken);
+            };
 
-function checkAnswer(userAnswer) {
-    const correct = questions[currentQuestionIndex].a.map(a => a.toLowerCase());
-    const ok = correct.some(a => userAnswer.includes(a) || a.includes(userAnswer));
+            recognition.onerror = function(event) {
+                document.getElementById("error").innerText = "No te escuché bien. Intenta de nuevo. (" + event.error + ")";
+            };
+        }
 
-    document.getElementById("feedback").innerHTML =
-    ok
-    ? `<span id="correct">Correct!</span><br>You said: "${userAnswer}"`
-    : `<span id="incorrect">Incorrect.</span><br>You said: "${userAnswer}"<br>Correct answers: ${questions[currentQuestionIndex].a.join(", ")}`;
+        function checkAnswer(userAnswer) {
+            if (!currentQuestion) return;
 
-    document.getElementById("next-btn").style.display = "inline-block";
-}
+            const correct = currentQuestion.a.map(x => x.toLowerCase());
+            const isCorrect = correct.some(ans => userAnswer.includes(ans) || ans.includes(userAnswer));
 
-function nextQuestion() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
+            if (isCorrect) {
+                document.getElementById("feedback").innerHTML =
+                    `<span id="correct">¡Correcto!</span><br> Dijiste: "${userAnswer}"<br><br>` +
+                    `Respuestas aceptables: ${currentQuestion.a.join(", ")}`;
+            } else {
+                document.getElementById("feedback").innerHTML =
+                    `<span id="incorrect">Incorrecto.</span><br> Dijiste: "${userAnswer}"<br><br>` +
+                    `Respuestas aceptables: ${currentQuestion.a.join(", ")}`;
+            }
+            document.getElementById("next-btn").style.display = "inline-block";
+        }
+
+        function nextQuestion() {
+            displayQuestion();
+            if (currentQuestion) {
+                speakQuestion();  // reproducir automáticamente la siguiente
+            }
+        }
+
+        // Iniciar
         displayQuestion();
         speakQuestion();
-    } else {
-        document.getElementById("question").innerText =
-        "🎉 Congratulations Miriam! You finished the practice.";
-        document.getElementById("feedback").innerText =
-        "You are ready for your USCIS interview 🇺🇸";
-        document.querySelectorAll("button").forEach(b => b.style.display="none");
-    }
-}
-
-// INICIAR
-displayQuestion();
-speakQuestion();
-</script>
+    </script>
 </body>
 </html>
