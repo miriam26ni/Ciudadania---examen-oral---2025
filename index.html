@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>128 Civics Questions Oral Test Simulator - Random Order</title>
+<title>128 Civics Questions Oral Test Simulator</title>
 
 <style>
 body {
@@ -71,81 +71,63 @@ button:hover { background: #0056b3; }
 <script>
 const questions = [
 {q:"What is the form of government of the United States?",a:["republic","constitution-based federal republic","representative democracy"]},
-{q:"What is the supreme law of the land?",a:["u.s. constitution"]},
-{q:"Name one thing the U.S. Constitution does.",a:["forms the government","defines powers of government","Defines the parts of government","protects the rights of the people"]},
-{q:" The U.S. Constitution starts with the words “We the People.” What does “We the People” mean?",a:["self-government","Popular sovereignty","Consent of the governed","People should govern themselves,"(Example of) social contract"]},
-{q:"How are changes made to the U.S. Constitution?",a:["amendments","The amendment process"]},
-{q:"What does the Bill of Rights protect?",a:["(The basic) rights of Americans","(The basic) rights of people living in the United States"]},
-{q:"How many amendments does the Constitution have?",a:["27","twenty-seven"]},
-{q:"Why is the Declaration of Independence important?",a:["It says America is free from British control."," It says all people are created equal.","  It identifies inherent rights"," It identifies individual freedoms."]},
+{q:"What is the supreme law of the land?",a:["the constitution","u.s. constitution"]},
+{q:"Name one thing the U.S. Constitution does.",a:["forms the government","defines powers of government","protects the rights of the people"]},
+{q:"The U.S. Constitution starts with the words “We the People.” What does “We the People” mean?",a:["self-government","popular sovereignty","consent of the governed"]},
+{q:"How are changes made to the U.S. Constitution?",a:["amendments","the amendment process"]},
+{q:"What does the Bill of Rights protect?",a:["rights of americans","basic rights"]},
+{q:"How many amendments does the Constitution have?",a:["27","twenty seven"]},
+{q:"Why is the Declaration of Independence important?",a:["america is free","all people are created equal","inherent rights"]},
 {q:"What founding document said the colonies were free from Britain?",a:["declaration of independence"]},
-{q:" What are important ideas from the Declaration of Independence and the U.S. Constitution.",a:[" Equality","Liberty","Social contract","Natural rights","Limited government","Self-government"]},
-{q:"The words “Life, Liberty, and the pursuit of Happiness” are in what founding document?",a:["Declaration of Independence"]},
+{q:"What are important ideas from the Declaration of Independence and the Constitution?",a:["equality","liberty","natural rights","self government"]},
+{q:"The words “Life, Liberty, and the pursuit of Happiness” are in what founding document?",a:["declaration of independence"]},
 {q:"What is the economic system of the United States?",a:["capitalism","free market economy"]},
-{q:"What is the rule of law?",a:["everyone must follow the law"," Leaders must obey the law.","Government must obey the law.","no one is above the law"]},
-{q:"what documents influenced the U.S. Constitution.",a:["Declaration of Independence"," Articles of Confederation","Federalist Papers","Anti-Federalist Papers","Virginia Declaration of Rights","Fundamental Orders of Connecticut","Mayflower Compact","Iroquois Great Law of Peace"]},
-{q:"There are three branches of government. Why?.",a:["So one part does not become too powerful","Checks and balances","Separation of powers"]},
-{q:"Name the three branches of government.",a:["Legislative, executive, and judicial","Congress, president, and the courts"]},
-{q:" What part of the federal government writes laws?",a:["(U.S.) Congress"," (U.S. or national) legislature","Legislative branch"]},
-{q:"What are the two parts of the U.S. Congress?",a:["Senate and House (of Representatives)"]},
-{q:"Name three power of the U.S. Congress.",a:["Writes laws","Declares war","Makes the federal budget"]},
-{q:"How many U.S. senators are there?",a:["One hundred"]},
-{q:"How long is a term for a U.S. senator?",a:["Six years"]},
-{q:"Who is one of your state’s U.S. senators now?",a:[" Answers will vary. [District of Columbia residents and residents of U.S. territories should answer that D.C. (or the territory where the applicant lives) has no U.S. senators."]},
-{q:"How many voting members are in the House of Representatives?",a:["Four hundred thirty-five"]},
-{q:"How long is a term for a member of the House of Representatives?",a:["Two years"]},
-{q:"Why do U.S. representatives serve shorter terms than U.S. senators?",a:["To more closely follow public opinion"]},
-{q:"How many senators does each state have?",a:["Two"]},
-{q:"Why does each state have two senators?",a:["Equal representation (for small states)","The Great Compromise (Connecticut Compromise)"]},
-{q:"Name your U.S. representative.",a:["Answers will vary.","Residents of territories with nonvoting Delegates or Resident Commissioners may provide the name of that Delegate or Commissioner."," It is also acceptable to say that the territory has no voting representatives in Congress."]},
-{q:"What is the name of the Speaker of the House of Representatives now?",a:["Mike Johnson"]},
-{q:"Who does a U.S. senator represent?",a:["Citizens of their state","People of their state"]},
-{q:"Who elects U.S. senators?",a:["Citizens from their state"]},
-{q:"Who does a member of the House of Representatives represent?",a:["Citizens in their congressional district"," Citizens in their district","People from their congressional district","People in their district"]},
-{q:"Who elects members of the House of Representatives?",a:["Citizens from their (congressional) district"]},
-{q:"Some states have more representatives than other states. Why?",a:["Because of the state’s population","Because they have more people","Because some states have more people"]},
-{q:"The President of the United States is elected for how many years?",a:["Four years"]},
-{q:"The President of the United States can serve only two terms. Why? ",a:["Because of the 22nd Amendment"," To keep the president from becoming too powerful"]},
-{q:"What is the name of the President of the United States now?",a:["Donald Trump."]},
-{q:"What is the name of the Vice President of the United States now?",a:["James David Vance"]},
-{q:"If the president can no longer serve, who becomes president?",a:["The Vice President (of the United States)"]},
-{q:"Name six power of the president.",a:["Signs bills into law","Vetoes bills","Enforces laws","Commander in Chief (of the military)","Appoints federal judges"]},
-{q:"Who is Commander in Chief of the U.S. military?",a:["The President (of the United States)"]},
-{q:"Who signs bills to become laws?",a:["The President (of the United States)"]},
-{q:"Who vetoes bills?",a:["The President (of the United States)"]},
-{q:"Who appoints federal judges?",a:["The President (of the United States)"]},
-{q:"The executive branch has many parts. Name three.",a:["President (of the United States)","Cabinet","Federal departments and agencies"]},
-{q:"What does the President’s Cabinet do?",a:["Advises the President (of the United States)"]},
-{q:"Who is the governor of your state?",a:["ned lamont"]},
+{q:"What is the rule of law?",a:["everyone must follow the law","no one is above the law"]},
+{q:"Why are there three branches of government?",a:["checks and balances","separation of powers"]},
+{q:"Name the three branches of government.",a:["legislative executive and judicial","congress president and courts"]},
+{q:"What part of the federal government writes laws?",a:["congress","legislative branch"]},
+{q:"What are the two parts of Congress?",a:["senate and house"]},
+{q:"How many U.S. senators are there?",a:["100","one hundred"]},
+{q:"How long is a term for a U.S. senator?",a:["six years"]},
+{q:"How many voting members are in the House of Representatives?",a:["435","four hundred thirty five"]},
+{q:"How long is a term for a member of the House?",a:["two years"]},
+{q:"How many senators does each state have?",a:["two"]},
+{q:"Who is the President of the United States now?",a:["donald trump","donald j trump"]},
+{q:"Who is the Vice President now?",a:["jd vance","james david vance"]},
+{q:"If the president can no longer serve, who becomes president?",a:["vice president"]},
+{q:"Who is Commander in Chief of the military?",a:["the president"]},
+{q:"Who signs bills into law?",a:["the president"]},
+{q:"Who vetoes bills?",a:["the president"]},
+{q:"Who appoints federal judges?",a:["the president"]},
+{q:"What does the President’s Cabinet do?",a:["advises the president"]},
+{q:"Who is the governor of Connecticut?",a:["ned lamont"]},
 {q:"What is the capital of Connecticut?",a:["hartford"]},
-{q:"What is the name of the President of the United States now?",a:["donald trump","donald j. trump"]},
-{q:"What is the name of the Vice President now?",a:["jd vance","james david vance"]},
 {q:"Who is the Chief Justice of the United States?",a:["john roberts"]},
 {q:"How many justices are on the Supreme Court?",a:["9","nine"]},
-{q:"What is the capital of the United States?",a:["washington dc","washington d.c."]},
+{q:"What is the capital of the United States?",a:["washington dc"]},
 {q:"Why does the flag have 13 stripes?",a:["13 original colonies"]},
-{q:"Why does the flag have 50 stars?",a:["one for each state"]},
-{q:"What is the name of the national anthem?",a:["the star-spangled banner"]},
-{q:"When is Independence Day?",a:["july 4"]},
+{q:"Why does the flag have 50 stars?",a:["50 states"]},
+{q:"What is the name of the national anthem?",a:["the star spangled banner"]},
+{q:"When is Independence Day?",a:["july 4","fourth of july"]},
 {q:"What is Memorial Day?",a:["honors soldiers who died"]},
 {q:"What is Veterans Day?",a:["honors all who served"]}
 ];
 
-// 🔀 MEZCLAR PREGUNTAS
+// Shuffle questions
 questions.sort(() => Math.random() - 0.5);
 
-let currentQuestionIndex = 0;
+let index = 0;
 
 function displayQuestion() {
     document.getElementById("question").innerText =
-    (currentQuestionIndex + 1) + ". " + questions[currentQuestionIndex].q;
-    document.getElementById("feedback").innerText = "";
+        (index + 1) + ". " + questions[index].q;
+    document.getElementById("feedback").innerHTML = "";
     document.getElementById("error").innerText = "";
     document.getElementById("next-btn").style.display = "none";
 }
 
 function speakQuestion() {
-    const u = new SpeechSynthesisUtterance(questions[currentQuestionIndex].q);
+    const u = new SpeechSynthesisUtterance(questions[index].q);
     u.lang = "en-US";
     u.rate = 0.95;
     speechSynthesis.speak(u);
@@ -168,32 +150,31 @@ function startListening() {
 }
 
 function checkAnswer(userAnswer) {
-    const correct = questions[currentQuestionIndex].a.map(a => a.toLowerCase());
-    const ok = correct.some(a => userAnswer.includes(a) || a.includes(userAnswer));
+    const correct = questions[index].a;
+    const ok = correct.some(a => userAnswer.includes(a));
 
     document.getElementById("feedback").innerHTML =
-    ok
-    ? `<span id="correct">Correct!</span><br>You said: "${userAnswer}"`
-    : `<span id="incorrect">Incorrect.</span><br>You said: "${userAnswer}"<br>Correct answers: ${questions[currentQuestionIndex].a.join(", ")}`;
+        ok
+        ? `<span id="correct">Correct!</span><br>You said: "${userAnswer}"`
+        : `<span id="incorrect">Incorrect.</span><br>You said: "${userAnswer}"<br>Correct answers: ${correct.join(", ")}`;
 
     document.getElementById("next-btn").style.display = "inline-block";
 }
 
 function nextQuestion() {
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
+    index++;
+    if (index < questions.length) {
         displayQuestion();
         speakQuestion();
     } else {
         document.getElementById("question").innerText =
-        "🎉 Congratulations Miriam! You finished the practice.";
+            "🎉 Congratulations Miriam! You finished the practice.";
         document.getElementById("feedback").innerText =
-        "You are ready for your USCIS interview 🇺🇸";
+            "You are ready for your USCIS interview 🇺🇸";
         document.querySelectorAll("button").forEach(b => b.style.display="none");
     }
 }
 
-// INICIAR
 displayQuestion();
 speakQuestion();
 </script>
