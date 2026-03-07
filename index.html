@@ -113,17 +113,17 @@ const questions = [
 "create an army",
 "make treaties",
 "set foreign policy"
-]
+]},
 {q:"What is the purpose of the 10th Amendment?",a:["establishes that not given to the federal government belong to the states or to the people"]},
 {q:"What is the capital of your state?",a:["Albany"]},
 {q:"There are four amendments to the U.S. Constitution about who can vote. Describe one of them.",a:["Citizens eighteen and older (can vote"]},
 {q:"Who can vote in federal elections, run for federal office, and serve on a jury in the United States?",a:[" Citizens of the United States"]},
-{q:"What are six rights of everyone living in the United States?",a:[" Freedom of expression
- Freedom of speech
- Freedom of assembly
- Freedom to petition the government
- Freedom of religion
- The right to bear arms"]},
+{q:"What are six rights of everyone living in the United States?",a:["freedom of expression",
+"freedom of speech",
+"freedom of assembly",
+"freedom to petition the government",
+"freedom of religion",
+"right to bear arms"]},
 {q:"What do we show loyalty to when we say the Pledge of Allegiance?",a:["The United States, The flag"]},
 {q:"Name two promises that new citizens make in the Oath of Allegiance",a:[" Give up loyalty to other countries
  Defend the (U.S.) Constitution
@@ -177,9 +177,7 @@ a: [
 "Stamp Act",
 "Sugar Act",
 "Taxation without representation",
-"British soldiers stayed in Americans’ houses"
-]
-},
+"British soldiers stayed in Americans’ houses"]},
 {q:"Who wrote the Declaration of Independence?",a:[" (Thomas) Jefferson"]},
 {q:"When was the Declaration of Independence adopted?",a:[" July 4, 1776"]},
 {q:"The American Revolution had many important events. Name six.",a:["(Battle of) Bunker Hill
@@ -218,8 +216,12 @@ Publius"]},
  Member of the Continental Congress"]},
 {q:"What territory did the United States buy from France in 1803?",a:[" Louisiana"]},
 {q:"What are the wars fought by the United States in the 1800s.",a:["War of 1812, Mexican-American War, Civil War Spanish-American War"]},
-{q:"Name the U.S. war between the North and the South.",a:[" The Civil War"]},
-{q:"The Civil War had many important events. Name three.",a:[" Emancipation Proclamation,  Lincoln was assassinated,  Sherman’s March "]},
+{q:"Name the U.S. war between the North and the South.",a:[
+"war of 1812",
+"mexican-american war",
+"civil war",
+"spanish-american war"
+]},
 {q:"Abraham Lincoln is famous for many things. Name three",a:["Freed the slaves (Emancipation Proclamation)"]},
 {q:"What did the Emancipation Proclamation do?",a:[" Freed the slaves
  Freed slaves in the Confederacy
@@ -312,10 +314,16 @@ recognition.onresult=e=>{checkAnswer(e.results[0][0].transcript.toLowerCase());}
 }
 
 function checkAnswer(ans){
-const ok=questions[index].a.some(a=>ans.includes(a));
+ans = ans.toLowerCase().trim();
+
+const ok = questions[index].a.some(a =>
+ans.includes(a.toLowerCase().trim())
+);
+
 document.getElementById("feedback").innerHTML=
 ok?`<span id="correct">Correct!</span><br>You said: "${ans}"`
 :`<span id="incorrect">Incorrect.</span><br>You said: "${ans}"<br>Correct answers: ${questions[index].a.join(", ")}`;
+
 document.getElementById("next-btn").style.display="inline-block";
 }
 
@@ -326,11 +334,11 @@ else{
 document.getElementById("question").innerText="🎉 Congratulations Miriam! You finished all 128 questions!";
 document.getElementById("feedback").innerText="You are ready for your USCIS interview 🇺🇸";
 document.querySelectorAll("button").forEach(b=>b.style.display="none");
-}
-}
+}}
 
 displayQuestion();
 speakQuestion();
 </script>
 </body>
 </html>
+
